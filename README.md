@@ -6,6 +6,8 @@ A 2D platformer about shapes and home.
 
 ![Screenshot of µ: a green triangle on a red platform in front of low-poly mountains and clouds](screenshot.png)
 
+![Screenshot of µ: the triangle far from home, in a pale, distorted world with a blue star](Project/resources/screenshots/star.png)
+
 Created at the Global Game Jam Graz 2019.
 
 ## Diversifiers
