@@ -8,7 +8,8 @@ A 2D platformer about shapes and home.
 
 ![Screenshot of µ: the triangle far from home, in a pale, distorted world with a blue star](Project/resources/screenshots/star.png)
 
-Created at the Global Game Jam Graz 2019.
+Created at the Global Game Jam Graz 2019:
+https://globalgamejam.org/2019/games/mu-0
 
 ## Diversifiers
 - Use the Source, Luke (Sponsored by GitHub)
