@@ -9,7 +9,9 @@ onready var sprite2 = get_node("ParallaxLayer2/Sprite")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	# the sprite regions are larger than the textures, so they have to tile
+	sprite1.texture.flags |= Texture.FLAG_REPEAT
+	sprite2.texture.flags |= Texture.FLAG_REPEAT
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

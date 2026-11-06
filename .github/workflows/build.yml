@@ -1,0 +1,79 @@
+name: Build
+
+# Push to main: export the web build and publish it on GitHub Pages.
+# Push a tag v* (or publish a release): also export Windows/Linux and attach all builds to the release.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 3.5.3
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:3.5.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up export templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/
+      - name: Export
+        run: |
+          mkdir -p build/web build/windows build/linux
+          cd Project
+          godot --no-window --export "HTML5" ../build/web/index.html
+          godot --no-window --export "Windows" ../build/windows/Mu.exe
+          godot --no-window --export "Linux" ../build/linux/Mu.x86_64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: builds
+          path: build
+
+  pages:
+    needs: export
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: builds
+          path: build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  release:
+    needs: export
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: builds
+          path: build
+      - name: Zip builds
+        run: |
+          cd build
+          (cd web && zip -r ../Mu-web.zip .)
+          (cd windows && zip -r ../Mu-windows.zip .)
+          (cd linux && chmod +x Mu.x86_64 && zip -r ../Mu-linux.zip .)
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: build/*.zip
