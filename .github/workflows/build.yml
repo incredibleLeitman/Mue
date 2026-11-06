@@ -20,14 +20,18 @@ env:
 jobs:
   export:
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:3.5.3
     steps:
       - uses: actions/checkout@v4
-      - name: Set up export templates
+      - name: Set up Godot
         run: |
-          mkdir -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/
+          base=https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable
+          curl -sSLo godot.zip $base/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip
+          unzip -q godot.zip && sudo mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 /usr/local/bin/godot
+          curl -sSLo templates.tpz $base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          T=~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          mkdir -p $T
+          unzip -qjo templates.tpz templates/version.txt templates/webassembly_release.zip templates/windows_64_release.exe templates/linux_x11_64_release -d $T
+          rm godot.zip templates.tpz
       - name: Export
         run: |
           mkdir -p build/web build/windows build/linux
