@@ -10,6 +10,14 @@ A 2D platformer about shapes and home.
 
 Created at the Global Game Jam Graz 2019:
 https://globalgamejam.org/2019/games/mu-0
+([archived copy](https://web.archive.org/web/20210203135723/https://globalgamejam.org/2019/games/mu-0))
+
+## Team
+- [elNiño](https://web.archive.org/web/20210203135723/https://globalgamejam.org/users/elni%C3%B1o)
+- [kb173](https://web.archive.org/web/20210203135723/https://globalgamejam.org/users/kb173)
+- [mathias](https://web.archive.org/web/20210203135723/https://globalgamejam.org/users/mathias)
+- [Merlar](https://web.archive.org/web/20210203135723/https://globalgamejam.org/users/merlar)
+- [SyntaX](https://web.archive.org/web/20210203135723/https://globalgamejam.org/users/syntax)
 
 ## Diversifiers
 - Use the Source, Luke (Sponsored by GitHub)
